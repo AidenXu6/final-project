@@ -1,48 +1,6 @@
-//Aiden
-int mode;
-final int intro=0;
-final int game=1;
-final int pause=2;
-final int gameover=3;
+size (1800,1000);
 
-//keyboard variables
-boolean wkey, skey,akey,dkey, upkey, downkey,rightkey,leftkey;
-
-//character vars
-int redX,redY,blueX,blueY;
-float redr,bluer;
-
-void setup() {
-  size(1800, 1000,P2D);
-  
-  
- background(255);
-  mode=intro;
-  
-  redX=0;
-  redY=0;
-  
-  redr=0;
-  bluer=0;
-
-}
-
-void draw() {
-  if (mode==intro) {
-    intro();
-  } else if (mode==game) {
-    game();
-  } else if (mode==pause) {
-    pause();
-  } else if (mode==gameover) {
-    gameover();
-  } else {
-    println("Error:Mode="+mode);
-  }
-}
-
-void map(){
-  background(#04CB2A);
+background(#04CB2A);
 
 noStroke();
 fill(#DE8C10);
@@ -102,4 +60,3 @@ rect(225,825,125,75,10);
 rect(375,830,125,75,10);
 
 rect(525,820,125,75,10);
-}

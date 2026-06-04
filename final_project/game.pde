@@ -1,5 +1,5 @@
 void game() {
-  background(255);
+  map();
   
     // Red player
   if (wkey==true){
@@ -49,6 +49,24 @@ redY=constrain(redY,-500,500);
 
 blueX=constrain(blueX,-1100,700);
 blueY=constrain(blueY,-500,500);
+
+  float testX = redX;
+  float testY = redY;
+  
+  // which edge is closest?
+  if (redX < 1000){
+    testX = 1000; 
+    redX=1000;
+    dkey=false; 
+  }// test left edge
+  else if (redX > 1500) testX =1500;   // right edge
+  if (redY <0)         testY =0;      // top edge
+  else if (redY > 250) testY =250;   // bottom edge
+
+  // get distance from closest edges
+  float distX = redX-testX;
+  float distY = redY-testY;
+  float distance = sqrt( (distX*distX) + (distY*distY) );
 
 
 pushMatrix();
