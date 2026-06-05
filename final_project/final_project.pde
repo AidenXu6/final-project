@@ -12,6 +12,22 @@ boolean wkey, skey,akey,dkey, upkey, downkey,rightkey,leftkey;
 int redX,redY,blueX,blueY;
 float redr,bluer;
 
+float cx = redX;      // circle position (set with mouse)
+float cy = redY;
+float cx1 = blueX;      // circle position (set with mouse)
+float cy1 = blueY;
+float r =37.5;      // circle radius
+float r1 =37.5; 
+
+float sx = 1000;    // square position
+float sy = 0;
+float sw = 500;    // and dimensions
+float sh = 250;
+int oldRedX = redX;
+int oldRedY = redY;
+int oldBlueX = blueX;
+int oldBlueY = blueY;
+
 void setup() {
   size(1800, 1000,P2D);
   
