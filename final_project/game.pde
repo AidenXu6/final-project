@@ -1,5 +1,10 @@
 void game() {
   map();
+  
+  if (crownVisible) {
+  crown(900,500);
+}
+  
   int oldRedX = redX;
 int oldRedY = redY;
 
@@ -48,10 +53,37 @@ int oldBlueY = blueY;
     blueX = blueX+5;
     bluer=0;
   }
-    float cx = redX+700;      // circle position (set with mouse)
-float cy = redY+500;
-    float cx1 = blueX+1100;      // circle position (set with mouse)
-float cy1 = blueY+300;
+
+if (dist(redX+700, redY+500, crownX, crownY) < crownRadius + r) {
+  crownVisible = false;
+  redcrown=true;
+}
+
+if (dist(blueX+1100, blueY+500, crownX, crownY) < crownRadius + r) {
+  crownVisible = false;
+  bluecrown=true;
+}
+
+if (dist(blueX+1100, blueY+500, redX+700, redY+500) < 75) {
+  redcrown=true;
+}
+
+if (dist(redX+700, redY+500, blueX+1100, blueY+500) < 75) {
+  bluecrown=true;
+}
+
+if (redcrown){
+  bluecrown=false;
+  fill(#CDCE02);
+  ellipse(redX+700,redY+500,125,125);
+}
+
+if (bluecrown){
+  redcrown=false;
+  fill(#CDCE02);
+  ellipse(blueX+1100,redY+500,125,125);
+}
+
 
   redX=constrain(redX, -700, 1100);
   redY=constrain(redY, -500, 500);
@@ -59,18 +91,54 @@ float cy1 = blueY+300;
   blueX=constrain(blueX, -1100, 700);
   blueY=constrain(blueY, -500, 500);
   
-   boolean hit = circleRect(cx,cy,r, sx,sy,sw,sh);
-  if (hit) {
- redX = oldRedX;
-  redY=oldRedY;
+  // Red collision
+  float redCx = redX + 700;
+  float redCy = redY + 500;
+
+  if (circleRect(redCx, redCy, r, sx, sy, sw, sh)) {
+    redX = oldRedX;
+    redY = oldRedY;
   }
   
-     boolean hit1 = circleRect(cx1,cy1,r1, sx,sy,sw,sh);
-  if (hit) {
- blueX = oldBlueX;
-  blueY=oldBlueY;
+    if (circleRect2(redCx, redCy, r, sx2, sy2, sw2, sh2)) {
+    redX = oldRedX;
+    redY = oldRedY;
+  }
+  
+      if (circleRect3(redCx, redCy, r, sx3, sy3, sw3, sh3)) {
+    redX = oldRedX;
+    redY = oldRedY;
+  }
+  
+        if (circleRect4(redCx, redCy, r, sx4, sy4, sw4, sh4)) {
+    redX = oldRedX;
+    redY = oldRedY;
   }
 
+  // Blue collision
+  float blueCx = blueX + 1100;
+  float blueCy = blueY + 500;
+
+  if (circleRect(blueCx, blueCy, r, sx, sy, sw, sh)) {
+    blueX = oldBlueX;
+    blueY = oldBlueY;
+  }
+  
+  if (circleRect2(blueCx, blueCy, r, sx2, sy2, sw2, sh2)) {
+    blueX = oldBlueX;
+    blueY = oldBlueY;
+  }
+  
+    if (circleRect3(blueCx, blueCy, r, sx3, sy3, sw3, sh3)) {
+    blueX = oldBlueX;
+    blueY = oldBlueY;
+  }
+  
+      if (circleRect4(blueCx, blueCy, r, sx4, sy4, sw4, sh4)) {
+    blueX = oldBlueX;
+    blueY = oldBlueY;
+  }
+  
   pushMatrix();
   translate(redX+700, redY+500);
   rotate(redr);
@@ -89,6 +157,7 @@ void gameClicks() {
 }
 
 void redcharacter(int x, int y) {
+  noStroke();
   fill(#FADD7C);
   ellipse(-5+x, -40+y, 50, 10);
   ellipse(-5+x, 40+y, 50, 10);
@@ -104,6 +173,7 @@ void redcharacter(int x, int y) {
 }
 
 void bluecharacter(int x, int y) {
+  noStroke();
   fill(#FADD7C);
   ellipse(-5+x, -40+y, 50, 10);
   ellipse(-5+x, 40+y, 50, 10);
@@ -118,7 +188,7 @@ void bluecharacter(int x, int y) {
   ellipse(15+x, 0+y, 65, 65);
 }
 
-// CIRCLE/RECTANGLE
+// house hitbox top part
 boolean circleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh) {
 
   // temporary variables to set edges for testing
@@ -143,27 +213,87 @@ boolean circleRect(float cx, float cy, float radius, float rx, float ry, float r
   return false;
 }
 
-// CIRCLE/RECTANGLE
-boolean circleRect1(float cx1, float cy1, float radius1, float rx, float ry, float rw, float rh) {
+// house hitbox bottom part
+boolean circleRect2(float cx, float cy, float radius, float rx2, float ry2, float rw2, float rh2) {
 
   // temporary variables to set edges for testing
-  float testX1 = cx1;
-  float testY1 = cy1;
+  float testX2 = cx;
+  float testY2 = cy;
 
   // which edge is closest?
-  if (cx1 < rx)         testX1 = rx;      // test left edge
-  else if (cx1 > rx+rw) testX1 = rx+rw;   // right edge
-  if (cy1 < ry)         testY1 = ry;      // top edge
-  else if (cy1 > ry+rh) testY1 = ry+rh;   // bottom edge
-
+  if (cx < rx2)         testX2 = rx2;      // test left edge
+  else if (cx > rx2+rw2) testX2 = rx2+rw2;   // right edge
+  if (cy < ry2)         testY2 = ry2;      // top edge
+  else if (cy > ry2+rh2) testY2=ry2+rh2;
   // get distance from closest edges
-  float distX1 = cx1-testX1;
-  float distY1 = cy1-testY1;
-  float distance1 = sqrt( (distX1*distX1) + (distY1*distY1) );
+  float distX2 = cx-testX2;
+  float distY2 = cy-testY2;
+  float distance2 = sqrt( (distX2*distX2) + (distY2*distY2) );
 
   // if the distance is less than the radius, collision!
-  if (distance1 <= radius1) {
+  if (distance2 <= radius) {
     return true;
   }
   return false;
+}
+
+boolean circleRect3(float cx, float cy, float radius, float rx3, float ry3, float rw3, float rh3) {
+
+  // temporary variables to set edges for testing
+  float testX3 = cx;
+  float testY3 = cy;
+
+  // which edge is closest?
+  if (cx < rx3)         testX3 = rx3;      // test left edge
+  else if (cx > rx3+rw3) testX3 = rx3+rw3;   // right edge
+  if (cy < ry3)         testY3 = ry3;      // top edge
+  else if (cy > ry3+rh3) testY3=ry3+rh3;
+  // get distance from closest edges
+  float distX3 = cx-testX3;
+  float distY3 = cy-testY3;
+  float distance3 = sqrt( (distX3*distX3) + (distY3*distY3) );
+
+  // if the distance is less than the radius, collision!
+  if (distance3 <= radius) {
+    return true;
+  }
+  return false;
+}
+
+boolean circleRect4(float cx, float cy, float radius, float rx4, float ry4, float rw4, float rh4) {
+
+  // temporary variables to set edges for testing
+  float testX4 = cx;
+  float testY4 = cy;
+
+  // which edge is closest?
+  if (cx < rx4)         testX4 = rx4;      // test left edge
+  else if (cx > rx4+rw4) testX4 = rx4+rw4;   // right edge
+  if (cy < ry4)         testY4 = ry4;      // top edge
+  else if (cy > ry4+rh4) testY4=ry4+rh4;
+  // get distance from closest edges
+  float distX4 = cx-testX4;
+  float distY4 = cy-testY4;
+  float distance4 = sqrt( (distX4*distX4) + (distY4*distY4) );
+
+  // if the distance is less than the radius, collision!
+  if (distance4 <= radius) {
+    return true;
+  }
+  return false;
+}
+
+void crown(int x,int y){
+fill(#CDCE02);
+ellipse(0+x, 0+y, 100, 100);
+
+noStroke();
+fill(#FCFC0A);
+rect(-25+x, 0+y, 50, 25);
+
+triangle(-25+x, 0+y, -20+x, -25+y, -15+x, 0+y);
+triangle(-15+x, 0+y, -10+x, -25+y, -5+x, 0+y);
+triangle(-5+x, 0+y, 0+x, -25+y, 5+x, 0+y);
+triangle(5+x, 0+y, 10+x, -25+y, 15+x, 0+y);
+triangle(15+x, 0+y, 20+x, -25+y, 25+x, 0+y);
 }

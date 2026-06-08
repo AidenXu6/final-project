@@ -17,7 +17,7 @@ void intro(){
 }
 
 void introClicks(){
-  mode=game;
+mode=game;
 
 }
 
