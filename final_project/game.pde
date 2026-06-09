@@ -1,10 +1,18 @@
 void game() {
   map();
+ 
   
   if (crownVisible) {
   crown(900,500);
 }
-  
+
+  text(" Blue Score:"+bluescore/60, 190, 75);
+  text(" Red Score:"+redscore/60, 1200, 75);
+
+touching =
+  dist(blueX+1100, blueY+500,
+       redX+700, redY+500) < 65;
+       
   int oldRedX = redX;
 int oldRedY = redY;
 
@@ -12,6 +20,7 @@ int oldRedY = redY;
 int oldBlueY = blueY;
 
   // Red player
+  if (redstun<0){
   if (wkey==true) {
     redY = redY-5;
     redr=3*PI/2;
@@ -31,9 +40,11 @@ int oldBlueY = blueY;
     redX = redX+5;
     redr=0;
   }
+  }
 
 
   // Blue player
+  if (bluestun<0){
   if (upkey==true) {
     blueY = blueY-5;
     bluer=3*PI/2;
@@ -53,6 +64,7 @@ int oldBlueY = blueY;
     blueX = blueX+5;
     bluer=0;
   }
+  }
 
 if (dist(redX+700, redY+500, crownX, crownY) < crownRadius + r) {
   crownVisible = false;
@@ -64,26 +76,29 @@ if (dist(blueX+1100, blueY+500, crownX, crownY) < crownRadius + r) {
   bluecrown=true;
 }
 
-if (dist(blueX+1100, blueY+500, redX+700, redY+500) < 75) {
-  redcrown=true;
-}
 
-if (dist(redX+700, redY+500, blueX+1100, blueY+500) < 75) {
-  bluecrown=true;
-}
 
-if (redcrown){
-  bluecrown=false;
-  fill(#CDCE02);
-  ellipse(redX+700,redY+500,125,125);
-}
-
-if (bluecrown){
+  if (redcrown) {
+    bluecrown=false;
+    fill(#DDF057);
+    ellipse(redX+700,redY+500,125,125);
+    redscore=redscore+1;
+  }
+  
+if (bluecrown) {
   redcrown=false;
-  fill(#CDCE02);
-  ellipse(blueX+1100,redY+500,125,125);
+    fill(#DDF057);
+    ellipse(blueX+1100,blueY+500,125,125);
+    bluescore=bluescore+1;
+  }
+
+if (redscore==1800){
+  mode=gameover;
 }
 
+if (bluescore==1800){
+  mode=gameover;
+}
 
   redX=constrain(redX, -700, 1100);
   redY=constrain(redY, -500, 500);
@@ -150,6 +165,25 @@ if (bluecrown){
   rotate(bluer);
   bluecharacter(0, 0);
   popMatrix();
+  
+  redstun=redstun-1;
+  bluestun=bluestun-1;
+  
+  delay(1);
+  if (touching&& !wastouching){
+  if(redcrown){
+    bluecrown=true;
+    redcrown=false;
+    redstun=60;
+  }else if (bluecrown){
+    redcrown=true;
+    bluecrown=false;
+     bluestun=60;
+
+  }
+}
+  
+  wastouching=touching;
 }
 
 void gameClicks() {
