@@ -49,8 +49,7 @@ boolean crownVisible=true;
 boolean bluecrown=false;
 boolean redcrown=false;
 
-boolean touching=false;
-boolean wastouching=false;
+
 
 int redstun=0;
 int bluestun=0;
@@ -58,9 +57,15 @@ int bluestun=0;
 int redscore=0;
 int bluescore=0;
 
+float redRadius=37.5;
+float blueRadius=37.5;
+
+
+
 
 void setup() {
   size(1800, 1000, P2D);
+  
 
 
   background(255);

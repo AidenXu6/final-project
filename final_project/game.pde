@@ -1,17 +1,13 @@
 void game() {
   map();
- 
   
-  if (crownVisible) {
-  crown(900,500);
-}
+  
 
+textSize(75);
   text(" Blue Score:"+bluescore/60, 190, 75);
   text(" Red Score:"+redscore/60, 1200, 75);
 
-touching =
-  dist(blueX+1100, blueY+500,
-       redX+700, redY+500) < 65;
+
        
   int oldRedX = redX;
 int oldRedY = redY;
@@ -66,27 +62,19 @@ int oldBlueY = blueY;
   }
   }
 
-if (dist(redX+700, redY+500, crownX, crownY) < crownRadius + r) {
-  crownVisible = false;
-  redcrown=true;
-}
 
-if (dist(blueX+1100, blueY+500, crownX, crownY) < crownRadius + r) {
-  crownVisible = false;
-  bluecrown=true;
-}
 
 
 
   if (redcrown) {
-    bluecrown=false;
+   
     fill(#DDF057);
     ellipse(redX+700,redY+500,125,125);
     redscore=redscore+1;
   }
   
 if (bluecrown) {
-  redcrown=false;
+  
     fill(#DDF057);
     ellipse(blueX+1100,blueY+500,125,125);
     bluescore=bluescore+1;
@@ -106,9 +94,13 @@ if (bluescore==1800){
   blueX=constrain(blueX, -1100, 700);
   blueY=constrain(blueY, -500, 500);
   
-  // Red collision
-  float redCx = redX + 700;
-  float redCy = redY + 500;
+  // Red collision 
+float redCx = redX + 700;
+float redCy = redY + 500; 
+
+// Blue collision 
+float blueCx = blueX + 1100; 
+float blueCy = blueY + 500;
 
   if (circleRect(redCx, redCy, r, sx, sy, sw, sh)) {
     redX = oldRedX;
@@ -130,9 +122,6 @@ if (bluescore==1800){
     redY = oldRedY;
   }
 
-  // Blue collision
-  float blueCx = blueX + 1100;
-  float blueCy = blueY + 500;
 
   if (circleRect(blueCx, blueCy, r, sx, sy, sw, sh)) {
     blueX = oldBlueX;
@@ -166,24 +155,51 @@ if (bluescore==1800){
   bluecharacter(0, 0);
   popMatrix();
   
-  redstun=redstun-1;
-  bluestun=bluestun-1;
   
-  delay(1);
-  if (touching&& !wastouching){
-  if(redcrown){
+ if(redstun<=0&&bluestun<=0){
+  boolean hit = circleCircle(redCx,redCy,redRadius, blueCx,blueCy,blueRadius);
+  if (hit) {
+      if(redcrown){
+        delay(1);
     bluecrown=true;
     redcrown=false;
     redstun=60;
-  }else if (bluecrown){
+   
+  } else if (bluecrown){
+    delay(1);
     redcrown=true;
     bluecrown=false;
      bluestun=60;
-
+   
   }
-}
+  }
+ }
+ 
+ if (crownVisible){
+  boolean hit2 = circleCircle2(redCx,redCy,redRadius, crownX,crownY,crownRadius);
+  if (hit2) {
+redcrown=true;
+bluecrown=false;
+crownVisible=false;
+  }
   
-  wastouching=touching;
+    boolean hit3 = circleCircle3(blueCx,blueCy,blueRadius, crownX,crownY,crownRadius);
+  if (hit3) {
+bluecrown=true;
+redcrown=false;
+crownVisible=false;
+  }
+ }
+
+   if (crownVisible) {
+  crown(900,500);
+}
+
+    redstun=redstun-1;
+  bluestun=bluestun-1;
+  
+  
+
 }
 
 void gameClicks() {
@@ -317,7 +333,70 @@ boolean circleRect4(float cx, float cy, float radius, float rx4, float ry4, floa
   return false;
 }
 
+// CIRCLE/CIRCLE
+boolean circleCircle(float redCx, float redCy, float redRadius, float blueCx, float blueCy, float blueRadius) {
+
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc = redCx - blueCx;
+  float distYc = redCy - blueCy;
+  float distancec = sqrt( (distXc*distXc) + (distYc*distYc) );
+
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec <= redRadius+blueRadius) {
+    return true;
+  }
+  return false;
+}
+
+
+// CIRCLE/CIRCLE
+boolean circleCircle2(float redCx, float redCy, float redRadius, float crownX, float crownY, float crownRadius) {
+
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc2 = redCx - crownX;
+  float distYc2 = redCy - crownY;
+  float distancec2 = sqrt( (distXc2*distXc2) + (distYc2*distYc2) );
+
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec2 <= redRadius+crownRadius) {
+    return true;
+  }
+  return false;
+}
+
+
+// CIRCLE/CIRCLE
+boolean circleCircle3(float blueCx, float blueCy, float blueRadius, float crownX, float crownY, float crownRadius) {
+
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc3 = blueCx - crownX;
+  float distYc3 = blueCy - crownY;
+  float distancec3 = sqrt( (distXc3*distXc3) + (distYc3*distYc3) );
+
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec3 <= blueRadius+crownRadius) {
+    return true;
+  }
+  return false;
+}
+
+
+
+
+
+
+
+
+
+
 void crown(int x,int y){
+  stroke(1);
 fill(#CDCE02);
 ellipse(0+x, 0+y, 100, 100);
 
