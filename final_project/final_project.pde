@@ -49,7 +49,7 @@ boolean crownVisible=true;
 boolean bluecrown=false;
 boolean redcrown=false;
 
-
+int mowx,mowy;
 
 int redstun=0;
 int bluestun=0;
@@ -57,10 +57,27 @@ int bluestun=0;
 int redscore=0;
 int bluescore=0;
 
-float redRadius=37.5;
-float blueRadius=37.5;
+float redRadius=47.5;
+float blueRadius=47.5;
 
+int mudslowblue=0;
+int mudslowred=0;
 
+float mudX=1300;
+float mudY=850;
+float mudr=75;
+
+float mudX2=1375;
+float mudY2=850;
+float mudr2=62.5;
+
+float mudX3=850;
+float mudY3=200;
+float mudr3=50;
+
+int mowerDir = 0;      // 0=right, 1=down, 2=left, 3=up
+int mowerTimer = 0;
+float mowerAngle = 0;
 
 
 void setup() {
@@ -154,4 +171,16 @@ void map() {
   rect(375, 830, 125, 75, 10);
 
   rect(525, 820, 125, 75, 10);
+  
+  //mud
+noStroke();
+fill(#6A5203);
+ellipse(1300,850,150,150);
+ellipse(1375,850,125,125);
+
+ellipse(850,200,100,100);
+
+//lawn thing
+fill(#137C04);
+rect(100,75,500,500,20);
 }

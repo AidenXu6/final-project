@@ -1,13 +1,39 @@
 void game() {
   map();
   
-  
+  mowerTimer--;
 
+if (mowerTimer <= 0) {
+  mowerDir = int(random(4));   // random direction
+  mowerTimer = 60;             // change every second
+}
+
+// move
+int speed = 3;
+
+if (mowerDir == 0) mowx += speed;      // right
+if (mowerDir == 1) mowy += speed;      // down
+if (mowerDir == 2) mowx -= speed;      // left
+if (mowerDir == 3) mowy -= speed;      // up
+
+if (mowerDir == 0) mowerAngle = 0;
+if (mowerDir == 1) mowerAngle = PI/2;
+if (mowerDir == 2) mowerAngle = PI;
+if (mowerDir == 3) mowerAngle = 3*HALF_PI;
+
+mowx = constrain(mowx, -150, 250);
+mowy = constrain(mowy, -50, 400);
+  
+fill(#FC0000);
 textSize(75);
   text(" Blue Score:"+bluescore/60, 190, 75);
   text(" Red Score:"+redscore/60, 1200, 75);
 
-
+pushMatrix();
+translate(300+mowx, 200+mowy);
+rotate(mowerAngle);
+lawnmower(0,0);
+popMatrix();
        
   int oldRedX = redX;
 int oldRedY = redY;
@@ -16,7 +42,7 @@ int oldRedY = redY;
 int oldBlueY = blueY;
 
   // Red player
-  if (redstun<0){
+  if (redstun<0&&mudslowred<0){
   if (wkey==true) {
     redY = redY-5;
     redr=3*PI/2;
@@ -36,11 +62,30 @@ int oldBlueY = blueY;
     redX = redX+5;
     redr=0;
   }
+  }else if (redstun<0&&mudslowred>0){
+  if (wkey==true) {
+    redY = redY-2;
+    redr=3*PI/2;
   }
 
+  if (skey==true) {
+    redY =redY+2;
+    redr=PI/2;
+  }
+
+  if (akey==true) {
+    redX= redX-2;
+    redr=PI;
+  }
+
+  if (dkey==true) {
+    redX = redX+2;
+    redr=0;
+  }
+  }
 
   // Blue player
-  if (bluestun<0){
+  if (bluestun<0&&mudslowblue<0){
   if (upkey==true) {
     blueY = blueY-5;
     bluer=3*PI/2;
@@ -58,6 +103,26 @@ int oldBlueY = blueY;
 
   if (rightkey==true) {
     blueX = blueX+5;
+    bluer=0;
+  }
+  }else if (bluestun<0&&mudslowblue>0){
+     if (upkey==true) {
+    blueY = blueY-2;
+    bluer=3*PI/2;
+  }
+
+  if (downkey==true) {
+    blueY = blueY+2;
+    bluer=PI/2;
+  }
+
+  if (leftkey==true) {
+    blueX= blueX-2;
+    bluer=PI;
+  }
+
+  if (rightkey==true) {
+    blueX = blueX+2;
     bluer=0;
   }
   }
@@ -155,6 +220,35 @@ float blueCy = blueY + 500;
   bluecharacter(0, 0);
   popMatrix();
   
+  boolean hit4=circleCircle4(blueCx,  blueCy,  blueRadius,  mudX,  mudY,  mudr);
+  if(hit4){
+    mudslowblue=90;
+  }
+  
+    boolean hit5=circleCircle5(redCx,  redCy,  redRadius,  mudX,  mudY,  mudr);
+  if(hit5){
+    mudslowred=90;
+  }
+    
+      boolean hit6=circleCircle6(redCx,  redCy,  redRadius,  mudX2,  mudY2,  mudr2);
+  if(hit6){
+    mudslowred=90;
+  }
+  
+    boolean hit7=circleCircle7(blueCx,  blueCy,  blueRadius,  mudX2,  mudY2,  mudr2);
+  if(hit7){
+    mudslowblue=90;
+  }
+  
+      boolean hit8=circleCircle8(blueCx,  blueCy,  blueRadius,  mudX3,  mudY3,  mudr3);
+  if(hit8){
+    mudslowblue=90;
+  }
+  
+        boolean hit9=circleCircle9(redCx,  redCy,  redRadius,  mudX3,  mudY3,  mudr3);
+  if(hit9){
+    mudslowred=90;
+  }
   
  if(redstun<=0&&bluestun<=0){
   boolean hit = circleCircle(redCx,redCy,redRadius, blueCx,blueCy,blueRadius);
@@ -197,8 +291,9 @@ crownVisible=false;
 
     redstun=redstun-1;
   bluestun=bluestun-1;
+  mudslowblue= mudslowblue-1;
   
-  
+  mudslowred= mudslowred-1;
 
 }
 
@@ -386,14 +481,107 @@ boolean circleCircle3(float blueCx, float blueCy, float blueRadius, float crownX
   return false;
 }
 
+// CIRCLE/CIRCLE
+boolean circleCircle4(float blueCx, float blueCy, float blueRadius, float mudX, float mudY, float mudr) {
 
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc4 = blueCx - mudX;
+  float distYc4 = blueCy - mudY;
+  float distancec4 = sqrt( (distXc4*distXc4) + (distYc4*distYc4) );
 
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec4 <= blueRadius+mudr) {
+    return true;
+  }
+  return false;
+}
 
+// CIRCLE/CIRCLE
+boolean circleCircle5(float redCx, float redCy, float redRadius, float mudX, float mudY, float mudr) {
 
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc5 = redCx - mudX;
+  float distYc5 = redCy - mudY;
+  float distancec5 = sqrt( (distXc5*distXc5) + (distYc5*distYc5) );
 
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec5 <= redRadius+mudr) {
+    return true;
+  }
+  return false;
+}
 
+// CIRCLE/CIRCLE
+boolean circleCircle6(float redCx, float redCy, float redRadius, float mudX2, float mudY2, float mudr2) {
 
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc6 = redCx - mudX2;
+  float distYc6 = redCy - mudY2;
+  float distancec6 = sqrt( (distXc6*distXc6) + (distYc6*distYc6) );
 
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec6 <= redRadius+mudr2) {
+    return true;
+  }
+  return false;
+}
+
+// CIRCLE/CIRCLE
+boolean circleCircle7(float blueCx, float blueCy, float blueRadius, float mudX2, float mudY2, float mudr2) {
+
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc7 = blueCx - mudX2;
+  float distYc7 = blueCy - mudY2;
+  float distancec7 = sqrt( (distXc7*distXc7) + (distYc7*distYc7) );
+
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec7 <= blueRadius+mudr2) {
+    return true;
+  }
+  return false;
+}
+
+// CIRCLE/CIRCLE
+boolean circleCircle8(float blueCx, float blueCy, float blueRadius, float mudX3, float mudY3, float mudr3) {
+
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc8 = blueCx - mudX3;
+  float distYc8 = blueCy - mudY3;
+  float distancec8 = sqrt( (distXc8*distXc8) + (distYc8*distYc8) );
+
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec8 <= blueRadius+mudr3) {
+    return true;
+  }
+  return false;
+}
+
+// CIRCLE/CIRCLE
+boolean circleCircle9(float redCx, float redCy, float redRadius, float mudX3, float mudY3, float mudr3) {
+
+  // get distance between the circle's centers
+  // use the Pythagorean Theorem to compute the distance
+  float distXc9 = redCx - mudX3;
+  float distYc9 = redCy - mudY3;
+  float distancec9 = sqrt( (distXc9*distXc9) + (distYc9*distYc9) );
+
+  // if the distance is less than the sum of the circle's
+  // radii, the circles are touching!
+  if (distancec9 <= redRadius+mudr3) {
+    return true;
+  }
+  return false;
+}
 
 void crown(int x,int y){
   stroke(1);
@@ -409,4 +597,19 @@ triangle(-15+x, 0+y, -10+x, -25+y, -5+x, 0+y);
 triangle(-5+x, 0+y, 0+x, -25+y, 5+x, 0+y);
 triangle(5+x, 0+y, 10+x, -25+y, 15+x, 0+y);
 triangle(15+x, 0+y, 20+x, -25+y, 25+x, 0+y);
+}
+
+void lawnmower(int x,int y){
+  fill(#FAEE08);
+rect(-50+x, -25+y, 100, 50);
+
+fill(0);
+ellipse(-35+x, -35+y, 40, 20);
+ellipse(35+x, -35+y, 40, 20);
+ellipse(-35+x, 35+y, 40, 20);
+ellipse(35+x, 35+y, 40, 20);
+
+rect(-75+x, -25+y, 25, 10);
+rect(-75+x, -25+y, 10, 50);
+rect(-75+x, 15+y, 25, 10);
 }
