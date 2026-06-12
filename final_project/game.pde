@@ -1,7 +1,7 @@
 void game() {
   map();
   
-  mowerTimer--;
+  mowerTimer=mowerTimer-1;
 
 if (mowerTimer <= 0) {
   mowerDir = int(random(4));   // random direction
@@ -11,15 +11,31 @@ if (mowerTimer <= 0) {
 // move
 int speed = 3;
 
-if (mowerDir == 0) mowx += speed;      // right
-if (mowerDir == 1) mowy += speed;      // down
-if (mowerDir == 2) mowx -= speed;      // left
-if (mowerDir == 3) mowy -= speed;      // up
+if (mowerDir == 0) mowx=mowx+speed;      // right
+if (mowerDir == 1) mowy= mowy+speed;      // down
+if (mowerDir == 2) mowx=mowx- speed;      // left
+if (mowerDir == 3) mowy=mowy- speed;      // up
 
-if (mowerDir == 0) mowerAngle = 0;
-if (mowerDir == 1) mowerAngle = PI/2;
-if (mowerDir == 2) mowerAngle = PI;
-if (mowerDir == 3) mowerAngle = 3*HALF_PI;
+if (mowerDir == 0){
+  mowerAngle = 0;
+  moww=100;
+  mowh=50;
+}
+if (mowerDir == 1){
+  moww=50;
+  mowh=100;
+  mowerAngle = PI/2;
+}
+if (mowerDir == 2) {
+  mowerAngle = PI;
+    moww=100;
+  mowh=50;
+}
+if (mowerDir == 3) {
+  mowerAngle = 3*PI/2;
+  moww=50;
+  mowh=100;
+}
 
 mowx = constrain(mowx, -150, 250);
 mowy = constrain(mowy, -50, 400);
@@ -185,6 +201,17 @@ float blueCy = blueY + 500;
         if (circleRect4(redCx, redCy, r, sx4, sy4, sw4, sh4)) {
     redX = oldRedX;
     redY = oldRedY;
+  }
+  
+          if (circleRect5(redCx, redCy, redRadius, mowx+300, mowy+200, moww, mowh)) {
+    redX = oldRedX;
+    redY = oldRedY;
+    redstun=60;
+  }
+            if (circleRect5(blueCx, blueCy, blueRadius, mowx+300, mowy+200, moww, mowh)) {
+    blueX = oldBlueX;
+    blueY = oldBlueY;
+    bluestun=60;
   }
 
 
@@ -423,6 +450,29 @@ boolean circleRect4(float cx, float cy, float radius, float rx4, float ry4, floa
 
   // if the distance is less than the radius, collision!
   if (distance4 <= radius) {
+    return true;
+  }
+  return false;
+}
+
+boolean circleRect5(float redCx, float redCy, float redRadius, float mowx, float mowy, float moww, float mowh) {
+
+  // temporary variables to set edges for testing
+  float testX5 = redCx;
+  float testY5 = redCy;
+
+  // which edge is closest?
+  if (redCx < mowx)         testX5 = mowx;      // test left edge
+  else if (redCx > mowx+moww) testX5 = mowx+moww;   // right edge
+  if (redCy < mowy)         testY5 = mowy;      // top edge
+  else if (redCy > mowy+mowh) testY5=mowy+mowh;
+  // get distance from closest edges
+  float distX5 = redCx-testX5;
+  float distY5 = redCy-testY5;
+  float distance5 = sqrt( (distX5*distX5) + (distY5*distY5) );
+
+  // if the distance is less than the radius, collision!
+  if (distance5 <= redRadius) {
     return true;
   }
   return false;

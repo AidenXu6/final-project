@@ -5,6 +5,18 @@ final int game=1;
 final int pause=2;
 final int gameover=3;
 
+
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+//sound variavles
+Minim minim;
+AudioPlayer muds,lawnmowers,gameovers,moving,theme;
+
 //keyboard variables
 boolean wkey, skey, akey, dkey, upkey, downkey, rightkey, leftkey;
 
@@ -49,7 +61,8 @@ boolean crownVisible=true;
 boolean bluecrown=false;
 boolean redcrown=false;
 
-int mowx,mowy;
+int mowx=0;
+int mowy=0;
 
 int redstun=0;
 int bluestun=0;
@@ -78,6 +91,8 @@ float mudr3=50;
 int mowerDir = 0;      // 0=right, 1=down, 2=left, 3=up
 int mowerTimer = 0;
 float mowerAngle = 0;
+float moww=100;
+float mowh=50;
 
 
 void setup() {
@@ -94,6 +109,14 @@ void setup() {
   redr=0;
   bluer=0;
   
+    //minim
+  minim=new Minim(this);
+  theme=minim.loadFile("theme.mp3");
+  muds=minim.loadFile("muds.wav");
+   lawnmowers=minim.loadFile("success.mp3");
+   gameovers=minim.loadFile("gameover.mp3");
+   moving=minim.loadFile("losealife.mp3");
+    theme.loop();
 }
 
 void draw() {
