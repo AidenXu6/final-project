@@ -1,5 +1,6 @@
 void gameover(){
 background (255);
+
 if (redscore==1800){
 fill(#FF0000);
   textSize(250);
@@ -25,5 +26,9 @@ fill(#FF0000);
 }
 
 void gameoverClicks(){
+   theme.rewind();
+  theme.loop();
   mode=intro;
+     gameovers.pause();
+  gameovers.rewind();
 }

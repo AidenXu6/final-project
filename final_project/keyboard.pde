@@ -14,7 +14,7 @@ void keyReleased(){
   if(key=='w'||key=='W')wkey=false;
   if(key=='s'||key=='S')skey=false;
       if(key=='a'||key=='A')akey=false;
-  if(key=='d'||key=='D')dkey=false;
+  if(key=='d'||key=='D')dkey=false; moving.rewind();
   if(keyCode==UP)upkey=false;
   if(keyCode==DOWN)downkey=false;
       if(keyCode==RIGHT)rightkey=false;

@@ -93,12 +93,12 @@ int mowerTimer = 0;
 float mowerAngle = 0;
 float moww=100;
 float mowh=50;
-
+PImage gamepic;
 
 void setup() {
   size(1800, 1000, P2D);
   
-
+gamepic=loadImage("gamepic.jfif");
 
   background(255);
   mode=intro;
@@ -113,9 +113,9 @@ void setup() {
   minim=new Minim(this);
   theme=minim.loadFile("theme.mp3");
   muds=minim.loadFile("muds.wav");
-   lawnmowers=minim.loadFile("success.mp3");
-   gameovers=minim.loadFile("gameover.mp3");
-   moving=minim.loadFile("losealife.mp3");
+   lawnmowers=minim.loadFile("lawnmowers.mp3");
+   gameovers=minim.loadFile("gameovers.wav");
+   moving=minim.loadFile("moving.mp3");
     theme.loop();
 }
 

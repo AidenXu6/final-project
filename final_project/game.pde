@@ -1,6 +1,6 @@
 void game() {
   map();
-  
+
   mowerTimer=mowerTimer-1;
 
 if (mowerTimer <= 0) {
@@ -62,41 +62,52 @@ int oldBlueY = blueY;
   if (wkey==true) {
     redY = redY-5;
     redr=3*PI/2;
+    muds.rewind();
   }
 
   if (skey==true) {
     redY =redY+5;
     redr=PI/2;
+     muds.rewind();
+ 
   }
 
   if (akey==true) {
     redX= redX-5;
     redr=PI;
+     
+    muds.rewind();
   }
 
   if (dkey==true) {
     redX = redX+5;
     redr=0;
+      muds.rewind();
+    
   }
   }else if (redstun<0&&mudslowred>0){
   if (wkey==true) {
     redY = redY-2;
     redr=3*PI/2;
+   
   }
 
   if (skey==true) {
     redY =redY+2;
     redr=PI/2;
+  
   }
 
   if (akey==true) {
     redX= redX-2;
     redr=PI;
+  
   }
 
   if (dkey==true) {
     redX = redX+2;
     redr=0;
+   
   }
   }
 
@@ -105,41 +116,49 @@ int oldBlueY = blueY;
   if (upkey==true) {
     blueY = blueY-5;
     bluer=3*PI/2;
+    muds.rewind();
   }
 
   if (downkey==true) {
     blueY = blueY+5;
     bluer=PI/2;
+    muds.rewind();
   }
 
   if (leftkey==true) {
     blueX= blueX-5;
     bluer=PI;
+    muds.rewind();
   }
 
   if (rightkey==true) {
     blueX = blueX+5;
     bluer=0;
+    muds.rewind();
   }
   }else if (bluestun<0&&mudslowblue>0){
      if (upkey==true) {
     blueY = blueY-2;
     bluer=3*PI/2;
+ 
   }
 
   if (downkey==true) {
     blueY = blueY+2;
     bluer=PI/2;
+
   }
 
   if (leftkey==true) {
     blueX= blueX-2;
     bluer=PI;
+
   }
 
   if (rightkey==true) {
     blueX = blueX+2;
     bluer=0;
+
   }
   }
 
@@ -163,10 +182,18 @@ if (bluecrown) {
 
 if (redscore==1800){
   mode=gameover;
+        theme.pause();
+    
+    gameovers.rewind();
+    gameovers.play();
 }
 
 if (bluescore==1800){
   mode=gameover;
+      theme.pause();
+    
+    gameovers.rewind();
+    gameovers.play();
 }
 
   redX=constrain(redX, -700, 1100);
@@ -207,11 +234,15 @@ float blueCy = blueY + 500;
     redX = oldRedX;
     redY = oldRedY;
     redstun=60;
+    lawnmowers.play();
+    lawnmowers.rewind();
   }
             if (circleRect5(blueCx, blueCy, blueRadius, mowx+300, mowy+200, moww, mowh)) {
     blueX = oldBlueX;
     blueY = oldBlueY;
     bluestun=60;
+     lawnmowers.play();
+    lawnmowers.rewind();
   }
 
 
@@ -250,32 +281,56 @@ float blueCy = blueY + 500;
   boolean hit4=circleCircle4(blueCx,  blueCy,  blueRadius,  mudX,  mudY,  mudr);
   if(hit4){
     mudslowblue=90;
+    
+ muds.play();
+
   }
   
     boolean hit5=circleCircle5(redCx,  redCy,  redRadius,  mudX,  mudY,  mudr);
   if(hit5){
     mudslowred=90;
+
+ 
+ muds.play();
+    
   }
     
       boolean hit6=circleCircle6(redCx,  redCy,  redRadius,  mudX2,  mudY2,  mudr2);
   if(hit6){
     mudslowred=90;
+  
+    muds.play();
+
+    
   }
   
     boolean hit7=circleCircle7(blueCx,  blueCy,  blueRadius,  mudX2,  mudY2,  mudr2);
   if(hit7){
     mudslowblue=90;
+  
+   muds.play();
+
+    
   }
   
       boolean hit8=circleCircle8(blueCx,  blueCy,  blueRadius,  mudX3,  mudY3,  mudr3);
   if(hit8){
     mudslowblue=90;
+     muds.play();
+   
+
+   
   }
   
         boolean hit9=circleCircle9(redCx,  redCy,  redRadius,  mudX3,  mudY3,  mudr3);
   if(hit9){
     mudslowred=90;
+   
+    muds.play();
+  
   }
+ 
+ 
   
  if(redstun<=0&&bluestun<=0){
   boolean hit = circleCircle(redCx,redCy,redRadius, blueCx,blueCy,blueRadius);
