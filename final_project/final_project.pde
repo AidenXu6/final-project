@@ -88,17 +88,17 @@ float mudX3=850;
 float mudY3=200;
 float mudr3=50;
 
-int mowerDir = 0;      // 0=right, 1=down, 2=left, 3=up
+int mowerDir = 0;      
 int mowerTimer = 0;
 float mowerAngle = 0;
 float moww=100;
 float mowh=50;
-PImage gamepic;
+
 
 void setup() {
   size(1800, 1000, P2D);
   
-gamepic=loadImage("gamepic.jfif");
+
 
   background(255);
   mode=intro;

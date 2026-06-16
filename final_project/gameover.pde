@@ -13,7 +13,7 @@ fill(#FF0000);
 }
 
 if (bluescore==1800){
-fill(#FF0000);
+fill(#0054F7);
   textSize(250);
         text("Blue Wins!",400,300);
         

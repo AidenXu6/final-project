@@ -1,5 +1,6 @@
 void intro(){
-  background(#1D7C01);
+   
+  map();
   fill(255);
   strokeWeight(5);
   tactilerect(800,350,200,100);

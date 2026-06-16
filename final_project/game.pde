@@ -4,17 +4,19 @@ void game() {
   mowerTimer=mowerTimer-1;
 
 if (mowerTimer <= 0) {
-  mowerDir = int(random(4));   // random direction
-  mowerTimer = 60;             // change every second
+  mowerDir = int(random(4));   
+  mowerTimer = 60; 
+   muds.rewind();
+   muds.pause();
 }
 
 // move
 int speed = 3;
 
-if (mowerDir == 0) mowx=mowx+speed;      // right
-if (mowerDir == 1) mowy= mowy+speed;      // down
-if (mowerDir == 2) mowx=mowx- speed;      // left
-if (mowerDir == 3) mowy=mowy- speed;      // up
+if (mowerDir == 0) mowx=mowx+speed;     
+if (mowerDir == 1) mowy= mowy+speed;     
+if (mowerDir == 2) mowx=mowx- speed;      
+if (mowerDir == 3) mowy=mowy- speed;      
 
 if (mowerDir == 0){
   mowerAngle = 0;
@@ -40,10 +42,11 @@ if (mowerDir == 3) {
 mowx = constrain(mowx, -150, 250);
 mowy = constrain(mowy, -50, 400);
   
-fill(#FC0000);
+fill(#0054F7);
 textSize(75);
-  text(" Blue Score:"+bluescore/60, 190, 75);
-  text(" Red Score:"+redscore/60, 1200, 75);
+  text(" Blue Score:"+bluescore/60, 1200, 75);
+  fill(#FC0000);
+  text(" Red Score:"+redscore/60, 190, 75);
 
 pushMatrix();
 translate(300+mowx, 200+mowy);
@@ -62,13 +65,13 @@ int oldBlueY = blueY;
   if (wkey==true) {
     redY = redY-5;
     redr=3*PI/2;
-    muds.rewind();
+   
   }
 
   if (skey==true) {
     redY =redY+5;
     redr=PI/2;
-     muds.rewind();
+     
  
   }
 
@@ -76,13 +79,13 @@ int oldBlueY = blueY;
     redX= redX-5;
     redr=PI;
      
-    muds.rewind();
+    
   }
 
   if (dkey==true) {
     redX = redX+5;
     redr=0;
-      muds.rewind();
+      
     
   }
   }else if (redstun<0&&mudslowred>0){
@@ -116,25 +119,25 @@ int oldBlueY = blueY;
   if (upkey==true) {
     blueY = blueY-5;
     bluer=3*PI/2;
-    muds.rewind();
+    
   }
 
   if (downkey==true) {
     blueY = blueY+5;
     bluer=PI/2;
-    muds.rewind();
+   
   }
 
   if (leftkey==true) {
     blueX= blueX-5;
     bluer=PI;
-    muds.rewind();
+   
   }
 
   if (rightkey==true) {
     blueX = blueX+5;
     bluer=0;
-    muds.rewind();
+   
   }
   }else if (bluestun<0&&mudslowblue>0){
      if (upkey==true) {
@@ -236,13 +239,27 @@ float blueCy = blueY + 500;
     redstun=60;
     lawnmowers.play();
     lawnmowers.rewind();
+    
+       if(redcrown){
+        redcrown = false;
+        crownVisible = true;
+        crownX=900;
+        crownY =500;
+    }
   }
             if (circleRect5(blueCx, blueCy, blueRadius, mowx+300, mowy+200, moww, mowh)) {
     blueX = oldBlueX;
     blueY = oldBlueY;
     bluestun=60;
-     lawnmowers.play();
-    lawnmowers.rewind();
+     lawnmowers.rewind();
+    lawnmowers.play();
+    
+           if(bluecrown){
+        bluecrown = false;
+        crownVisible = true;
+        crownX=900;
+        crownY =500;
+    }
   }
 
 
